@@ -102,6 +102,8 @@
   .work-card:hover .work-card-bg{transform:scale(1.12);opacity:.1}
   .work-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,12,16,.95) 0%,transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:36px}
   [data-theme="light"] .work-card-overlay{background:linear-gradient(to top,rgba(255,255,255,.95) 0%,transparent 60%)}
+  .work-card a,.work-card-title{color:var(--text)}
+  a.work-card,.work-card a{color:inherit;text-decoration:none}
   .work-card-tag{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
   .work-card-title{font-family:'Outfit',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.01em;margin-bottom:8px;transform:translateY(8px);transition:transform .4s}
   .work-card:hover .work-card-title{transform:translateY(0)}
@@ -338,12 +340,13 @@ const SITE = {
   cases: [
     {
       id: "bytemine",
-      tag: "SaaS · Marketing Website · 15 screens",
+      tag: "SaaS · Marketing Website · NDA",
       title: "Bytemine",
       desc: "Full marketing website for an algo trading SaaS. Architecture → User flows → 15-screen Axure prototype. Conversion funnel built into every section.",
-      wide: true,   // занимает всю ширину
+      wide: true,
       color: "#00ffb4",
       icon: "⬡",
+      url: "https://educated-glove-218.notion.site/No-Code-Algo-Trading-Platform-Marketing-Website-NDA-31a741de908d8028b45bc7c17da742fa",
     },
     {
       id: "xide",
@@ -353,6 +356,7 @@ const SITE = {
       wide: false,
       color: "#00aaff",
       icon: "◈",
+      url: "https://educated-glove-218.notion.site/Fintech-Trading-Platform-NDA-31a741de908d80a8a703e2d5117764d1",
     },
     {
       id: "pari",
@@ -362,6 +366,7 @@ const SITE = {
       wide: false,
       color: "#ff6b6b",
       icon: "◉",
+      url: "",
     },
   ],
 
@@ -493,16 +498,20 @@ function render() {
   document.getElementById('marquee-track').innerHTML = items.map(m=>`<span class="marquee-item">${m}</span>`).join('');
 
   // WORK
-  document.getElementById('work-grid').innerHTML = S.cases.map((c,i)=>`
-    <div class="work-card${c.wide?' wide':''} reveal${i>0?' reveal-delay-'+i:''}">
+  document.getElementById('work-grid').innerHTML = S.cases.map((c,i)=>{
+    const inner = `
       <div class="work-card-bg" style="color:${c.color}">${c.icon}</div>
       <div class="work-card-overlay">
         <div class="work-card-tag">${c.tag}</div>
         <div class="work-card-title">${c.title}</div>
         <div class="work-card-desc">${c.desc}</div>
       </div>
-      <div class="work-card-arrow">↗</div>
-    </div>`).join('');
+      <div class="work-card-arrow">↗</div>`;
+    if(c.url) {
+      return `<a href="${c.url}" target="_blank" rel="noopener" class="work-card${c.wide?' wide':''} reveal${i>0?' reveal-delay-'+i:''}" style="display:block;text-decoration:none;">${inner}</a>`;
+    }
+    return `<div class="work-card${c.wide?' wide':''} reveal${i>0?' reveal-delay-'+i:''}">${inner}</div>`;
+  }).join('');
 
   // SERVICES
   document.getElementById('services-grid').innerHTML = S.services.map((sv,i)=>`
