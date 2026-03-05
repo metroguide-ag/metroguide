@@ -322,9 +322,8 @@ function render() {
   document.getElementById('hero-inner').innerHTML = `
     <div class="hero-tag">${h.tag}</div>
     <h1 class="hero-h1">
-      <span class="line l1"><span>${h.line1}</span></span>
-      <span class="line l2"><span><span class="accent-word">${h.line2}</span></span></span>
-      <span class="line l3"><span>${h.line3}</span></span>
+      <span class="line l1"><span>${h.line1} <span class="accent-word">${h.line2}</span></span></span>
+      <span class="line l2"><span>${h.line3}</span></span>
     </h1>
     <p class="hero-sub">${h.subtext}</p>
     <div class="hero-ctas">

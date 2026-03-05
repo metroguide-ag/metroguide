@@ -15,9 +15,9 @@ const SITE = {
   // ── HERO
   hero: {
     tag: "Design Studio · Est. 2021",
-    line1: "Design that converts.",
-    line2: "Strategy that",
-    line3: "scales.",
+    line1: "Design that",
+    line2: "converts.",
+    line3: "Strategy that scales.",
     subtext: "We build websites, brands, and products\nfor Seed & Series A startups.\nFintech. B2B SaaS. Built to win trust fast.",
     cta_primary: "View Work →",
     cta_secondary: "Free Audit",
