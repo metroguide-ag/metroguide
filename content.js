@@ -145,8 +145,9 @@ const SITE = {
   nav_links: [
     { label: "Work",     href: "#work" },
     { label: "Services", href: "#services" },
-    { label: "About",    href: "#about" },
+    { label: "About",    href: "#about-section" },
     { label: "Process",  href: "#process" },
+    { label: "Contact",  href: "#contact" },
   ],
 
 };

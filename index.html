@@ -175,13 +175,21 @@
 
   section{position:relative;z-index:1}
 
+  /* CONTACT FORM */
+  .form-group{display:flex;flex-direction:column;gap:8px}
+  .form-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-muted)}
+  .form-input{background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:'Space Mono',monospace;font-size:13px;padding:14px 16px;outline:none;transition:border-color .25s;width:100%}
+  .form-input::placeholder{color:var(--text-muted);opacity:.6}
+  .form-input:focus{border-color:var(--border-accent)}
+  .form-textarea{min-height:140px;resize:vertical}
+
   @media(max-width:768px){
     nav{padding:0 24px}
     .nav-links{display:none}
     #hero{padding:72px 24px 0}
     .hero-inner{padding:80px 0 120px}
     .hero-stats{display:none}
-    #work,#services,#about,#process,#cta{padding:80px 24px}
+    #work,#services,#about-section,#process,#cta,#contact{padding:80px 24px!important}
     .work-grid{grid-template-columns:1fr}
     .work-card.wide{grid-column:span 1;aspect-ratio:4/3}
     .services-grid{grid-template-columns:1fr}
@@ -191,6 +199,7 @@
     footer{flex-direction:column;gap:24px;text-align:center}
     .footer-links{flex-wrap:wrap;justify-content:center}
     .section-header{flex-direction:column;align-items:flex-start;gap:20px}
+    #contact>div{grid-template-columns:1fr!important;gap:48px!important}
   }
 </style>
 </head>
@@ -246,6 +255,46 @@
 <section id="cta">
   <div class="cta-glow"></div>
   <div class="reveal" id="cta-inner"></div>
+</section>
+
+<!-- CONTACT FORM -->
+<section id="contact" style="padding:140px 48px;background:var(--bg2);border-top:1px solid var(--border);position:relative;z-index:1;">
+  <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:start;">
+    <div class="reveal">
+      <div class="section-label">Get in touch</div>
+      <h2 class="section-h2" style="margin-bottom:24px;">Let's talk<br><span style="color:var(--accent)">about your project.</span></h2>
+      <p style="font-family:'Space Mono',monospace;font-size:13px;line-height:1.9;color:var(--text-muted);margin-bottom:40px;">Tell us what you're building. We'll take a look and come back with honest observations — no pitch, no pressure.</p>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <a href="mailto:contact@metroguide.agency" style="font-family:'Space Mono',monospace;font-size:12px;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:10px;letter-spacing:0.05em;">
+          <span style="width:28px;height:1px;background:var(--accent);display:block;"></span>
+          contact@metroguide.agency
+        </a>
+        <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text-muted);padding-left:38px;letter-spacing:0.1em;">Based in Almaty, KZ · Works globally</span>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <form id="contact-form" action="https://formspree.io/f/mojkalok" method="POST" style="display:flex;flex-direction:column;gap:20px;">
+        <div class="form-group">
+          <label class="form-label">Your name</label>
+          <input type="text" name="name" required placeholder="John Smith" class="form-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" name="email" required placeholder="john@company.com" class="form-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">What are you working on?</label>
+          <textarea name="message" required placeholder="Tell us about your product, stage, and what you need..." class="form-input form-textarea"></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:16px;font-size:12px;" id="submit-btn">
+          Send Message →
+        </button>
+        <div id="form-success" style="display:none;font-family:'Space Mono',monospace;font-size:12px;color:var(--accent);text-align:center;padding:16px;border:1px solid var(--border-accent);">
+          ✓ Message sent — we'll get back to you within 24 hours.
+        </div>
+      </form>
+    </div>
+  </div>
 </section>
 
 <footer id="footer"></footer>
@@ -417,14 +466,33 @@ function toggleTheme(){
   html.setAttribute('data-theme',html.getAttribute('data-theme')==='dark'?'light':'dark');
 }
 
-// ── GLITCH on h1
-const h1=document.querySelector('.hero-h1');
-if(h1)h1.addEventListener('mouseenter',()=>{
-  let i=0;const g=setInterval(()=>{
-    h1.style.textShadow=i%2===0?'2px 0 var(--accent2), -2px 0 var(--accent)':'none';
-    i++;if(i>6){clearInterval(g);h1.style.textShadow='none'}
-  },60);
-});
+// ── CONTACT FORM
+const form = document.getElementById('contact-form');
+if(form) {
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Sending...';
+    btn.style.opacity = '0.7';
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if(res.ok) {
+        form.style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      } else {
+        btn.textContent = 'Error — try again';
+        btn.style.opacity = '1';
+      }
+    } catch {
+      btn.textContent = 'Error — try again';
+      btn.style.opacity = '1';
+    }
+  });
+}
 </script>
 </body>
 </html>
