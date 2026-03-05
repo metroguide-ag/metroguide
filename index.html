@@ -128,14 +128,10 @@
   .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center}
   .about-text p{font-family:'Space Mono',monospace;font-size:13px;line-height:1.9;color:var(--text-muted);margin-bottom:20px}
   .about-text p strong{color:var(--text);font-weight:700}
-  .about-box{aspect-ratio:1;background:var(--surface);border:1px solid var(--border);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-  .about-box-inner{width:60%;aspect-ratio:1;border:1px solid var(--border-accent);position:relative;display:flex;align-items:center;justify-content:center}
-  .about-box-inner::before,.about-box-inner::after{content:'';position:absolute;inset:-20px;border:1px solid var(--border);animation:rotate-box 12s linear infinite}
-  .about-box-inner::after{inset:-40px;animation-duration:20s;animation-direction:reverse}
-  @keyframes rotate-box{to{transform:rotate(360deg)}}
-  .about-logo-big{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);text-align:center}
-  .about-badge{position:absolute;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);padding:8px 14px;border:1px solid var(--border);background:var(--bg)}
-  .badge-tl{top:-12px;left:-12px}.badge-br{bottom:-12px;right:-12px}
+  .about-box{aspect-ratio:1;background:var(--surface);border:1px solid var(--border);position:relative;overflow:hidden}
+  .about-badge{position:absolute;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(0,255,180,0.6);padding:8px 14px;border:1px solid rgba(0,255,180,0.15);background:rgba(8,12,16,0.85);backdrop-filter:blur(4px);z-index:2}
+  .badge-tl{top:0;left:0}.badge-br{bottom:0;right:0}
+  #life-canvas{display:block;width:100%;height:100%;image-rendering:pixelated;position:absolute;inset:0}
 
   /* PROCESS */
   #process{padding:140px 48px;background:var(--bg2);border-top:1px solid var(--border)}
@@ -373,7 +369,7 @@ function render() {
     </div>
     <div class="about-visual reveal">
       <div class="about-box">
-        <div class="about-box-inner"><div class="about-logo-big">MG</div></div>
+        <canvas id="life-canvas"></canvas>
         <div class="about-badge badge-tl">${a.badge_top}</div>
         <div class="about-badge badge-br">${a.badge_bottom}</div>
       </div>
@@ -508,7 +504,85 @@ if(form) {
       btn.style.opacity = '1';
     }
   });
+// ── GAME OF LIFE
+function initLife() {
+  const canvas = document.getElementById('life-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const CELL = 7;
+  let cols, rows, grid, next, age;
+
+  function resize() {
+    const box = canvas.parentElement;
+    canvas.width = box.offsetWidth;
+    canvas.height = box.offsetHeight;
+    cols = Math.floor(canvas.width / CELL);
+    rows = Math.floor(canvas.height / CELL);
+    grid = Array.from({length:rows}, () => Array.from({length:cols}, () => Math.random() < 0.28 ? 1 : 0));
+    next = grid.map(r => [...r]);
+    age  = Array.from({length:rows}, () => new Array(cols).fill(0));
+    // seed glider in center
+    const cr = Math.floor(rows/2), cc = Math.floor(cols/2);
+    [[0,1],[1,2],[2,0],[2,1],[2,2]].forEach(([dr,dc]) => { grid[cr+dr][cc+dc] = 1; });
+  }
+
+  function neighbors(r,c) {
+    let n=0;
+    for(let dr=-1;dr<=1;dr++) for(let dc=-1;dc<=1;dc++) {
+      if(dr===0&&dc===0) continue;
+      n += grid[(r+dr+rows)%rows][(c+dc+cols)%cols];
+    }
+    return n;
+  }
+
+  function step() {
+    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) {
+      const n=neighbors(r,c), alive=grid[r][c];
+      next[r][c] = alive ? (n===2||n===3?1:0) : (n===3?1:0);
+    }
+    [grid,next]=[next,grid];
+  }
+
+  function draw() {
+    const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+    ctx.fillStyle = isDark ? '#080c10' : '#0d1219';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) {
+      if(grid[r][c]) {
+        age[r][c] = Math.min(age[r][c]+1, 20);
+        const a = age[r][c];
+        if(a < 4)       ctx.fillStyle = 'rgba(0,255,180,0.95)';
+        else if(a < 10) ctx.fillStyle = 'rgba(0,170,255,0.55)';
+        else            ctx.fillStyle = 'rgba(0,255,180,0.2)';
+        ctx.fillRect(c*CELL+1, r*CELL+1, CELL-1, CELL-1);
+      } else {
+        age[r][c] = 0;
+      }
+    }
+  }
+
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    const cc = Math.floor((e.clientX-rect.left)/CELL);
+    const cr = Math.floor((e.clientY-rect.top)/CELL);
+    for(let dr=-2;dr<=2;dr++) for(let dc=-2;dc<=2;dc++) {
+      const nr=(cr+dr+rows)%rows, nc=(cc+dc+cols)%cols;
+      if(Math.random()<0.45) grid[nr][nc]=1;
+    }
+  });
+
+  resize();
+  let frame=0;
+  function loop() {
+    if(frame%2===0) step();
+    draw(); frame++;
+    requestAnimationFrame(loop);
+  }
+  loop();
 }
+
+// Init after render
+setTimeout(initLife, 100);
 </script>
 </body>
 </html>
