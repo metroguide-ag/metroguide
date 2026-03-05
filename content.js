@@ -8,9 +8,9 @@ const SITE = {
   // ── GENERAL
   studio_name: "MetroGuide",
   tagline: "Design. Strategy. Conversion.",
-  email: "hello@metroguide.io",
+  email: "contact@metroguide.agency",
   typeform_url: "https://form.typeform.com/to/gEakDcxK",
-  location: "Temirtau, KZ",
+  location: "Almaty, KZ",
 
   // ── HERO
   hero: {
@@ -22,7 +22,7 @@ const SITE = {
     cta_primary: "View Work →",
     cta_secondary: "Free Audit",
     stats: [
-      { num: "30+", label: "Screens designed" },
+      { num: "100+", label: "Projects delivered" },
       { num: "3×",  label: "Faster conversions" },
       { num: "100%", label: "Founder-focused" },
     ],
