@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────
-//  MetroGuide — РЕДАКТИРУЙ ТОЛЬКО ЭТОТ ФАЙЛ
+//  MetroGuide – РЕДАКТИРУЙ ТОЛЬКО ЭТОТ ФАЙЛ
 //  Сохрани → Vercel задеплоит автоматически
 // ─────────────────────────────────────────
 
@@ -15,9 +15,9 @@ const SITE = {
   // ── HERO
   hero: {
     tag: "Design Studio · Est. 2021",
-    line1: "Design that",
-    line2: "converts.",
-    line3: "Strategy that scales.",
+    line1: "Design that converts.",
+    line2: "Strategy that",
+    line3: "scales.",
     subtext: "We build websites, brands, and products\nfor Seed & Series A startups.\nFintech. B2B SaaS. Built to win trust fast.",
     cta_primary: "View Work →",
     cta_secondary: "Free Audit",
@@ -59,7 +59,7 @@ const SITE = {
       id: "pari",
       tag: "Fintech · Concept Redesign · UI",
       title: "Pari",
-      desc: "Unsolicited concept redesign for a Portuguese fintech. Full UI in colour — before/after.",
+      desc: "Unsolicited concept redesign for a Portuguese fintech. Full UI in colour – before/after.",
       wide: false,
       color: "#ff6b6b",
       icon: "◉",
@@ -115,8 +115,8 @@ const SITE = {
   // ── ABOUT
   about: {
     paragraphs: [
-      "MetroGuide is a <strong>specialized design studio</strong>, not a 20-person agency and not a freelancer from Upwork. We work with a small number of clients at a time — which means full attention on your project.",
-      "Our ICP: <strong>Fintech and B2B SaaS startups</strong> at Seed and Series A stage. Founders, CPOs, CMOs who need design and positioning to move together — not just \"make it look good.\"",
+      "MetroGuide is a <strong>specialized design studio</strong>, not a 20-person agency and not a freelancer from Upwork. We work with a small number of clients at a time – which means full attention on your project.",
+      "Our ICP: <strong>Fintech and B2B SaaS startups</strong> at Seed and Series A stage. Founders, CPOs, CMOs who need design and positioning to move together – not just \"make it look good.\"",
       "We approach every project by first understanding your <strong>product logic and conversion context</strong>. The visual output follows the strategic thinking, not the other way around.",
     ],
     badge_top: "Seed / Series A",
@@ -125,9 +125,9 @@ const SITE = {
 
   // ── PROCESS
   process: [
-    { num: "01", title: "Discovery",      desc: "We map your product, market, ICP, and competitors. No brief template — a real conversation." },
+    { num: "01", title: "Discovery",      desc: "We map your product, market, ICP, and competitors. No brief template – a real conversation." },
     { num: "02", title: "User Research",  desc: "User Stories Map + Functional Requirements. We define what the product needs before touching design." },
-    { num: "03", title: "Architecture",   desc: "User flows, information architecture, and interaction logic — all before any pixel work." },
+    { num: "03", title: "Architecture",   desc: "User flows, information architecture, and interaction logic – all before any pixel work." },
     { num: "04", title: "Prototype",      desc: "Interactive Axure wireframes or full UI in Figma. Tested, iterated, signed off." },
     { num: "05", title: "Delivery",       desc: "Webflow build or developer handoff. Full documentation. You own everything." },
   ],
