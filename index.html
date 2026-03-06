@@ -124,28 +124,6 @@
   .service-title{font-size:20px;font-weight:700;margin-bottom:14px;letter-spacing:-.01em}
   .service-desc{font-family:'Space Mono',monospace;font-size:12px;line-height:1.8;color:var(--text-muted)}
   .service-price{margin-top:28px;font-family:'Space Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:.05em}
-  .service-card{cursor:pointer}
-  /* MODAL */
-  .mg-overlay{position:fixed;inset:0;background:rgba(4,8,14,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s ease}
-  .mg-overlay.open{opacity:1;pointer-events:all}
-  .mg-modal{background:var(--bg2);border:1px solid var(--border);width:100%;max-width:580px;max-height:88vh;overflow-y:auto;position:relative;transform:translateY(24px) scale(.97);transition:transform .38s cubic-bezier(.16,1,.3,1);padding:48px 48px 40px}
-  .mg-overlay.open .mg-modal{transform:translateY(0) scale(1)}
-  .mg-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent)}
-  .mg-close{position:absolute;top:18px;right:18px;width:34px;height:34px;border:1px solid var(--border);background:none;color:var(--text-muted);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s;line-height:1;font-family:'Space Mono',monospace}
-  .mg-close:hover{border-color:var(--accent);color:var(--accent)}
-  .mg-num{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--text-muted);margin-bottom:14px}
-  .mg-icon{font-size:36px;display:block;margin-bottom:14px}
-  .mg-title{font-family:'Outfit',sans-serif;font-size:26px;font-weight:700;letter-spacing:-.02em;margin-bottom:14px;color:var(--text)}
-  .mg-desc{font-family:'Space Mono',monospace;font-size:12px;line-height:2;color:var(--text-muted);margin-bottom:28px}
-  .mg-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px}
-  .mg-list{list-style:none;padding:0;margin:0 0 32px;display:flex;flex-direction:column;gap:9px}
-  .mg-list li{font-family:'Space Mono',monospace;font-size:12px;color:var(--text);display:flex;gap:10px;line-height:1.6}
-  .mg-list li::before{content:'→';color:var(--accent);flex-shrink:0}
-  .mg-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:22px;border-top:1px solid var(--border);flex-wrap:wrap}
-  .mg-price{font-family:'Space Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:.04em}
-  .mg-btn{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:13px 22px;background:var(--accent);color:#080c10;text-decoration:none;transition:opacity .2s;white-space:nowrap}
-  .mg-btn:hover{opacity:.82}
-  @media(max-width:600px){.mg-modal{padding:32px 24px 28px}.mg-title{font-size:20px}.mg-foot{flex-direction:column;align-items:flex-start}.mg-btn{width:100%;text-align:center;display:block}}
 
   /* ABOUT */
   #about{padding:140px 48px;max-width:1100px;margin:0 auto}
@@ -203,6 +181,15 @@
   .form-input:focus{border-color:var(--border-accent)}
   .form-textarea{min-height:140px;resize:vertical}
 
+  .contact-meta{display:flex;flex-direction:column;gap:16px}
+  .contact-location{font-family:'Space Mono',monospace;font-size:11px;color:var(--text-muted);padding-left:38px;letter-spacing:.1em}
+  .contact-socials{display:flex;align-items:center;gap:12px;padding-left:38px;padding-top:6px}
+  .social-icon{width:42px;height:42px;border:1px solid var(--border);background:var(--surface);display:inline-flex;align-items:center;justify-content:center;color:var(--text-muted);text-decoration:none;transition:transform .25s,border-color .25s,color .25s,background .25s}
+  .social-icon:hover{transform:translateY(-2px);border-color:var(--border-accent);color:var(--accent)}
+  .social-icon svg{width:17px;height:17px;display:block;fill:currentColor}
+  .social-icon.is-disabled{opacity:.75;cursor:default}
+  .social-icon.is-disabled:hover{transform:none;color:var(--text-muted);border-color:var(--border);background:var(--surface)}
+
   @media(max-width:768px){
     nav{padding:0 24px}
     .nav-links{display:none}
@@ -220,6 +207,7 @@
     .footer-links{flex-wrap:wrap;justify-content:center}
     .section-header{flex-direction:column;align-items:flex-start;gap:20px}
     #contact>div{grid-template-columns:1fr!important;gap:48px!important}
+    .contact-location,.contact-socials{padding-left:0}
   }
 </style>
 </head>
@@ -277,19 +265,29 @@
   <div class="reveal" id="cta-inner"></div>
 </section>
 
-<!-- CONTACT FORM -->
 <section id="contact" style="padding:140px 48px;background:var(--bg2);border-top:1px solid var(--border);position:relative;z-index:1;">
   <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:start;">
     <div class="reveal">
       <div class="section-label">Get in touch</div>
       <h2 class="section-h2" style="margin-bottom:24px;">Let's talk<br><span style="color:var(--accent)">about your project.</span></h2>
       <p style="font-family:'Space Mono',monospace;font-size:13px;line-height:1.9;color:var(--text-muted);margin-bottom:40px;">Tell us what you're building. We'll take a look and come back with observations.</p>
-      <div style="display:flex;flex-direction:column;gap:16px;">
-        <a href="/cdn-cgi/l/email-protection#95f6fafbe1f4f6e1d5f8f0e1e7faf2e0fcf1f0bbf4f2f0fbf6ec" style="font-family:'Space Mono',monospace;font-size:12px;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:10px;letter-spacing:0.05em;">
+      <div class="contact-meta">
+        <a href="mailto:contact@metroguide.agency" style="font-family:'Space Mono',monospace;font-size:12px;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:10px;letter-spacing:0.05em;">
           <span style="width:28px;height:1px;background:var(--accent);display:block;"></span>
-          <span class="__cf_email__" data-cfemail="a7c4c8c9d3c6c4d3e7cac2d3d5c8c0d2cec3c289c6c0c2c9c4de">[email&#160;protected]</span>
+          contact@metroguide.agency
         </a>
-        <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text-muted);padding-left:38px;letter-spacing:0.1em;">Based in Almaty, KZ · Works globally</span>
+        <span class="contact-location">Based in Almaty, KZ · Works globally</span>
+        <div class="contact-socials" aria-label="Social links">
+          <a class="social-icon" href="https://www.linkedin.com/company/metroguide/?viewAsMember=true" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.28 5c0 1.08.88 1.97 1.95 1.97h.02A1.97 1.97 0 1 0 5.25 3ZM20.72 12.72c0-3.47-1.85-5.08-4.31-5.08-1.99 0-2.88 1.1-3.38 1.87V8.5H9.66c.04.67 0 11.5 0 11.5h3.37v-6.42c0-.34.02-.68.13-.92.27-.68.88-1.38 1.92-1.38 1.35 0 1.89 1.03 1.89 2.54V20h3.37v-7.28Z"/></svg>
+          </a>
+          <a class="social-icon" href="https://t.me/metroguide" target="_blank" rel="noopener" aria-label="Telegram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.94 4.66c.14-.9-.78-1.62-1.6-1.24L3.05 10.82c-.88.38-.82 1.66.09 1.95l4.4 1.4 1.7 5.23c.28.88 1.43 1.03 1.92.25l2.4-3.82 4.48 3.29c.76.56 1.84.14 2-.8l1.9-13.66ZM9.14 13.46l8.62-6.59c.16-.12.35.08.22.24l-7.11 7.2a.95.95 0 0 0-.25.46l-.64 2.93-.84-2.58a.95.95 0 0 0-.6-.6l-2.4-.76Z"/></svg>
+          </a>
+          <span class="social-icon is-disabled" aria-label="X">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-6.77 7.73L23.2 22h-6.24l-4.89-6.72L6.18 22H3.06l7.24-8.28L.8 2h6.4l4.42 6.08L18.9 2Zm-1.1 18h1.73L6.26 3.9H4.4L17.8 20Z"/></svg>
+          </span>
+        </div>
       </div>
     </div>
     <div class="reveal reveal-delay-2">
@@ -319,23 +317,13 @@
 
 <footer id="footer"></footer>
 
-<!-- CONTENT DATA -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ─────────────────────────────────────────
-//  MetroGuide – РЕДАКТИРУЙ ТОЛЬКО ЭТОТ ФАЙЛ
-//  Сохрани → Vercel задеплоит автоматически
-// ─────────────────────────────────────────
-
+<script>
 const SITE = {
-
-  // ── GENERAL
   studio_name: "MetroGuide",
   tagline: "Design. Strategy. Conversion.",
-  email: ["contact","metroguide.agency"].join("@"),
-  typeform_url: "https://form.typeform.com/to/NCCfR2dE",
+  email: "contact@metroguide.agency",
+  typeform_url: "https://form.typeform.com/to/gEakDcxK",
   location: "Almaty, KZ",
-
-  // ── HERO
   hero: {
     tag: "Design Studio · Est. 2021",
     line1: "Design that",
@@ -350,15 +338,11 @@ const SITE = {
       { num: "100%", label: "Founder-focused" },
     ],
   },
-
-  // ── MARQUEE (повторяется автоматически)
   marquee: [
     "Web Design", "UX Strategy", "Brand Identity",
     "Marketing Sites", "Fintech", "B2B SaaS",
     "Pitch Decks", "Conversion Design",
   ],
-
-  // ── WORK CASES
   cases: [
     {
       id: "bytemine",
@@ -391,54 +375,14 @@ const SITE = {
       url: "",
     },
   ],
-
-  // ── SERVICES
   services: [
-    {
-      num: "01",
-      icon: "◻",
-      title: "Web Design & Dev",
-      desc: "Landing pages, SaaS marketing sites, and multi-page builds. Design + development, full cycle delivered live.",
-      price: "From $1,500 · 2 weeks – 2 months",
-    },
-    {
-      num: "02",
-      icon: "◈",
-      title: "Brand Identity",
-      desc: "Logo, visual system, tone of voice, full guidelines. From Brand Foundation to full Brand Ecosystem.",
-      price: "From $1,000 · 3 weeks – 6 months",
-    },
-    {
-      num: "03",
-      icon: "◎",
-      title: "UX / Product Design",
-      desc: "User research, flows, wireframes, Axure prototypes. Built around conversion logic and product thinking.",
-      price: "From $1,500 · Scope-based",
-    },
-    {
-      num: "04",
-      icon: "▣",
-      title: "Pitch Decks",
-      desc: "Investor-ready decks with clear narrative structure. Design that makes complex ideas immediately clear.",
-      price: "From $250 · 1 week",
-    },
-    {
-      num: "05",
-      icon: "◆",
-      title: "Targeting & Creatives",
-      desc: "Ad creatives optimised for A/B testing. Packs of 3–5 assets designed for conversion, not just aesthetics.",
-      price: "$350–$500 per pack · 1 week",
-    },
-    {
-      num: "06",
-      icon: "◇",
-      title: "Strategy Audit",
-      desc: "30-minute free audit of your current website or product. We tell you what's leaking conversions and why.",
-      price: "Free · 30 minutes",
-    },
+    { num: "01", icon: "◻", title: "Web Design & Dev", desc: "Landing pages, SaaS marketing sites, and multi-page builds. Design + development, full cycle delivered live.", price: "From $1,500 · 2 weeks – 2 months" },
+    { num: "02", icon: "◈", title: "Brand Identity", desc: "Logo, visual system, tone of voice, full guidelines. From Brand Foundation to full Brand Ecosystem.", price: "From $1,000 · 3 weeks – 6 months" },
+    { num: "03", icon: "◎", title: "UX / Product Design", desc: "User research, flows, wireframes, Axure prototypes. Built around conversion logic and product thinking.", price: "From $1,500 · Scope-based" },
+    { num: "04", icon: "▣", title: "Pitch Decks", desc: "Investor-ready decks with clear narrative structure. Design that makes complex ideas immediately clear.", price: "From $250 · 1 week" },
+    { num: "05", icon: "◆", title: "Targeting & Creatives", desc: "Ad creatives optimised for A/B testing. Packs of 3–5 assets designed for conversion, not just aesthetics.", price: "$350–$500 per pack · 1 week" },
+    { num: "06", icon: "◇", title: "Strategy Audit", desc: "30-minute free audit of your current website or product. We tell you what's leaking conversions and why.", price: "Free · 30 minutes" },
   ],
-
-  // ── ABOUT
   about: {
     paragraphs: [
       "MetroGuide is a <strong>specialized design studio</strong>, not a 20-person agency and not a freelancer from Upwork. We work with a small number of clients at a time – which means full attention on your project.",
@@ -448,8 +392,6 @@ const SITE = {
     badge_top: "Seed / Series A",
     badge_bottom: "Fintech · SaaS",
   },
-
-  // ── PROCESS
   process: [
     { num: "01", title: "Discovery",      desc: "We map your product, market, ICP, and competitors." },
     { num: "02", title: "User Research",  desc: "User Stories Map + Functional Requirements. We define what the product needs before touching design." },
@@ -457,8 +399,6 @@ const SITE = {
     { num: "04", title: "Prototype",      desc: "Interactive Figma wireframes or full UI. Tested, iterated, signed off." },
     { num: "05", title: "Delivery",       desc: "Webflow build or developer handoff. Full documentation. You own everything." },
   ],
-
-  // ── CTA
   cta: {
     heading1: "Ready to convert",
     heading2: "better?",
@@ -466,8 +406,6 @@ const SITE = {
     button: "Book Free Audit →",
     note: "Usually responds within 24 hours",
   },
-
-  // ── NAV
   nav_links: [
     { label: "Work",     href: "#work" },
     { label: "Services", href: "#services" },
@@ -475,18 +413,14 @@ const SITE = {
     { label: "Process",  href: "#process" },
     { label: "Contact",  href: "#contact" },
   ],
-
 };
-
 </script>
 
 <script>
-// -- RENDER FROM CONTENT
 function render() {
   const S = SITE;
   document.title = `${S.studio_name} - Design Studio`;
 
-  // NAV
   document.getElementById('nav').innerHTML = `
     <a href="#" class="nav-logo"><span class="nav-logo-dot"></span>${S.studio_name}</a>
     <ul class="nav-links">${S.nav_links.map(l=>`<li><a href="${l.href}">${l.label}</a></li>`).join('')}</ul>
@@ -495,7 +429,6 @@ function render() {
       <a href="#cta" class="btn-primary" style="padding:10px 20px;font-size:11px;">Let's Talk</a>
     </div>`;
 
-  // HERO
   const h = S.hero;
   document.getElementById('hero-inner').innerHTML = `
     <div class="hero-tag">${h.tag}</div>
@@ -515,11 +448,9 @@ function render() {
       <div class="stat-label">${s.label}</div>
     </div>`).join('');
 
-  // MARQUEE - doubled for seamless loop
   const items = [...S.marquee, ...S.marquee];
   document.getElementById('marquee-track').innerHTML = items.map(m=>`<span class="marquee-item">${m}</span>`).join('');
 
-  // WORK
   document.getElementById('work-grid').innerHTML = S.cases.map((c,i)=>{
     const inner = `
       <div class="work-card-bg" style="color:${c.color}">${c.icon}</div>
@@ -529,13 +460,10 @@ function render() {
         <div class="work-card-desc">${c.desc}</div>
       </div>
       <div class="work-card-arrow">↗</div>`;
-    if(c.url) {
-      return `<a href="${c.url}" target="_blank" rel="noopener" class="work-card${c.wide?' wide':''} reveal${i>0?' reveal-delay-'+i:''}" style="display:block;text-decoration:none;">${inner}</a>`;
-    }
+    if(c.url) return `<a href="${c.url}" target="_blank" rel="noopener" class="work-card${c.wide?' wide':''} reveal${i>0?' reveal-delay-'+i:''}" style="display:block;text-decoration:none;">${inner}</a>`;
     return `<div class="work-card${c.wide?' wide':''} reveal${i>0?' reveal-delay-'+i:''}">${inner}</div>`;
   }).join('');
 
-  // SERVICES
   document.getElementById('services-grid').innerHTML = S.services.map((sv,i)=>`
     <div class="service-card reveal${i%3>0?' reveal-delay-'+i%3:''}">
       <div class="service-num">${sv.num}</div>
@@ -545,7 +473,6 @@ function render() {
       <div class="service-price">${sv.price}</div>
     </div>`).join('');
 
-  // ABOUT
   const a = S.about;
   document.getElementById('about-grid').innerHTML = `
     <div class="about-text">
@@ -561,7 +488,6 @@ function render() {
       </div>
     </div>`;
 
-  // PROCESS
   document.getElementById('process-steps').innerHTML = S.process.map((p,i)=>`
     <div class="process-step reveal${i>0?' reveal-delay-'+i:''}">
       <div class="process-step-num">${p.num}</div>
@@ -570,7 +496,6 @@ function render() {
       ${i < S.process.length-1 ? '<div class="process-connector"></div>' : ''}
     </div>`).join('');
 
-  // CTA
   const c = S.cta;
   document.getElementById('cta-inner').innerHTML = `
     <div class="section-label" style="justify-content:center;margin-bottom:24px;">Start a project</div>
@@ -579,7 +504,6 @@ function render() {
     <a href="${S.typeform_url}" class="btn-primary" style="font-size:13px;padding:18px 36px;">${c.button}</a>
     <div class="cta-tag">${c.note} · Based in <span>${S.location}</span></div>`;
 
-  // FOOTER
   document.getElementById('footer').innerHTML = `
     <div class="footer-logo">${S.studio_name} © ${new Date().getFullYear()}</div>
     <ul class="footer-links">
@@ -588,7 +512,7 @@ function render() {
     </ul>
     <div class="footer-copy">${S.tagline}</div>`;
 }
-// -- GLITCH on hero h1
+
 function attachGlitch() {
   const h1 = document.querySelector('.hero-h1');
   if(!h1) return;
@@ -596,9 +520,7 @@ function attachGlitch() {
   h1.addEventListener('mouseenter', () => {
     let i = 0;
     const g = setInterval(() => {
-      h1.style.textShadow = i % 2 === 0
-        ? '3px 0 var(--accent2), -3px 0 var(--accent)'
-        : 'none';
+      h1.style.textShadow = i % 2 === 0 ? '3px 0 var(--accent2), -3px 0 var(--accent)' : 'none';
       i++;
       if(i > 8) { clearInterval(g); h1.style.textShadow = 'none'; }
     }, 55);
@@ -607,7 +529,6 @@ function attachGlitch() {
 render();
 attachGlitch();
 
-// -- CURSOR
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursor-ring');
 let mx=0,my=0,rx=0,ry=0;
@@ -620,7 +541,6 @@ function animCursor(){
 }
 animCursor();
 
-// -- PARTICLES
 const canvas=document.getElementById('particle-canvas');
 const ctx=canvas.getContext('2d');
 let W,H,particles=[];
@@ -654,22 +574,20 @@ function drawConnections(){
 function animP(){ctx.clearRect(0,0,W,H);particles.forEach(p=>{p.update();p.draw()});drawConnections();requestAnimationFrame(animP)}
 animP();
 
-// -- SCROLL REVEAL
 const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-// -- THEME
 function toggleTheme(){
   const html=document.documentElement;
   html.setAttribute('data-theme',html.getAttribute('data-theme')==='dark'?'light':'dark');
 }
 
-// -- CONTACT FORM
 const form = document.getElementById('contact-form');
 if(form) {
   form.addEventListener('submit', async e => {
     e.preventDefault();
     const btn = document.getElementById('submit-btn');
+    const success = document.getElementById('form-success');
     btn.textContent = 'Sending...';
     btn.style.opacity = '0.7';
     try {
@@ -679,8 +597,10 @@ if(form) {
         headers: { 'Accept': 'application/json' }
       });
       if(res.ok) {
-        form.style.display = 'none';
-        document.getElementById('form-success').style.display = 'block';
+        success.style.display = 'block';
+        form.reset();
+        btn.textContent = 'Message sent ✓';
+        btn.style.opacity = '1';
       } else {
         btn.textContent = 'Error - try again';
         btn.style.opacity = '1';
@@ -691,7 +611,7 @@ if(form) {
     }
   });
 }
-// -- GAME OF LIFE
+
 function initLife() {
   const canvas = document.getElementById('life-canvas');
   if(!canvas) return;
@@ -708,45 +628,41 @@ function initLife() {
     grid = Array.from({length:rows}, () => Array.from({length:cols}, () => Math.random() < 0.28 ? 1 : 0));
     next = grid.map(r => [...r]);
     age  = Array.from({length:rows}, () => new Array(cols).fill(0));
-
     const cr = Math.floor(rows/2), cc = Math.floor(cols/2);
     [[0,1],[1,2],[2,0],[2,1],[2,2]].forEach(([dr,dc]) => {
-      if (grid[cr + dr] && typeof grid[cr + dr][cc + dc] !== 'undefined') {
-        grid[cr + dr][cc + dc] = 1;
-      }
+      if (grid[cr + dr] && typeof grid[cr + dr][cc + dc] !== 'undefined') grid[cr + dr][cc + dc] = 1;
     });
   }
 
   function neighbors(r,c) {
-    let n = 0;
-    for(let dr=-1; dr<=1; dr++) for(let dc=-1; dc<=1; dc++) {
-      if(dr===0 && dc===0) continue;
+    let n=0;
+    for(let dr=-1;dr<=1;dr++) for(let dc=-1;dc<=1;dc++) {
+      if(dr===0&&dc===0) continue;
       n += grid[(r+dr+rows)%rows][(c+dc+cols)%cols];
     }
     return n;
   }
 
   function step() {
-    for(let r=0; r<rows; r++) for(let c=0; c<cols; c++) {
-      const n = neighbors(r,c), alive = grid[r][c];
-      next[r][c] = alive ? (n===2 || n===3 ? 1 : 0) : (n===3 ? 1 : 0);
+    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) {
+      const n=neighbors(r,c), alive=grid[r][c];
+      next[r][c] = alive ? (n===2||n===3?1:0) : (n===3?1:0);
     }
-    [grid, next] = [next, grid];
+    [grid,next]=[next,grid];
   }
 
   function draw() {
     const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
     ctx.fillStyle = isDark ? '#080c10' : '#0d1219';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    for(let r=0; r<rows; r++) for(let c=0; c<cols; c++) {
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) {
       if(grid[r][c]) {
-        age[r][c] = Math.min(age[r][c] + 1, 20);
+        age[r][c] = Math.min(age[r][c]+1, 20);
         const a = age[r][c];
-        if(a < 4)       ctx.fillStyle = 'rgba(0,255,180,0.95)';
+        if(a < 4) ctx.fillStyle = 'rgba(0,255,180,0.95)';
         else if(a < 10) ctx.fillStyle = 'rgba(0,170,255,0.55)';
-        else            ctx.fillStyle = 'rgba(0,255,180,0.2)';
-        ctx.fillRect(c * CELL + 1, r * CELL + 1, CELL - 1, CELL - 1);
+        else ctx.fillStyle = 'rgba(0,255,180,0.2)';
+        ctx.fillRect(c*CELL+1, r*CELL+1, CELL-1, CELL-1);
       } else {
         age[r][c] = 0;
       }
@@ -755,120 +671,25 @@ function initLife() {
 
   canvas.addEventListener('mousemove', e => {
     const rect = canvas.getBoundingClientRect();
-    const cc = Math.floor((e.clientX - rect.left) / CELL);
-    const cr = Math.floor((e.clientY - rect.top) / CELL);
-
-    for(let dr=-2; dr<=2; dr++) for(let dc=-2; dc<=2; dc++) {
-      const nr = (cr + dr + rows) % rows;
-      const nc = (cc + dc + cols) % cols;
-      if(Math.random() < 0.45) grid[nr][nc] = 1;
+    const cc = Math.floor((e.clientX-rect.left)/CELL);
+    const cr = Math.floor((e.clientY-rect.top)/CELL);
+    for(let dr=-2;dr<=2;dr++) for(let dc=-2;dc<=2;dc++) {
+      const nr=(cr+dr+rows)%rows, nc=(cc+dc+cols)%cols;
+      if(Math.random()<0.45) grid[nr][nc]=1;
     }
   });
 
   resize();
   window.addEventListener('resize', resize);
-
-  let frame = 0;
+  let frame=0;
   function loop() {
-    if(frame % 2 === 0) step();
-    draw();
-    frame++;
+    if(frame%2===0) step();
+    draw(); frame++;
     requestAnimationFrame(loop);
   }
   loop();
 }
-
-// Init after render
 setTimeout(initLife, 100);
 </script>
-
-<!-- ── MODAL ── -->
-<div class="mg-overlay" id="mgOverlay">
-  <div class="mg-modal">
-    <button class="mg-close" id="mgClose">✕</button>
-    <div class="mg-num"  id="mgNum"></div>
-    <span class="mg-icon" id="mgIcon"></span>
-    <div class="mg-title" id="mgTitle"></div>
-    <div class="mg-desc"  id="mgDesc"></div>
-    <div class="mg-label">What's included</div>
-    <ul  class="mg-list"  id="mgList"></ul>
-    <div class="mg-foot">
-      <div class="mg-price" id="mgPrice"></div>
-      <a href="#contact" class="mg-btn" id="mgBtn">Let's talk →</a>
-    </div>
-  </div>
-</div>
-
-<script>
-const MG_DATA = [
-  {
-    num:"01", icon:"◻", title:"Web Design & Dev",
-    desc:"We design and build marketing websites that work as a growth channel — not just a digital business card. Landing pages, SaaS marketing sites, multi-page builds — delivered live on Webflow.",
-    list:["Figma design — desktop + mobile","Webflow development, full cycle","SEO-ready structure and meta setup","Google Analytics integration","Contact forms and third-party integrations","Post-launch support"],
-    price:"From $1,500 · 2 weeks – 2 months"
-  },
-  {
-    num:"02", icon:"◈", title:"Brand Identity",
-    desc:"We build brand systems that hold up across every touchpoint — from your pitch deck to your product UI. Three tiers depending on scope: Foundation, Architecture, or full Ecosystem.",
-    list:["Logo + logotype system","Color palette and typography pair","Tone of voice and brand messaging","Visual identity system (patterns, icons, photo style)","Brand guidelines document","Key brand assets (cards, social templates, deck cover)"],
-    price:"From $1,000 · 3 weeks – 6 months"
-  },
-  {
-    num:"03", icon:"◎", title:"UX / Product Design",
-    desc:"We design product flows that make sense to users and convert. Built on real research — not assumptions. Output is a production-ready Axure prototype your dev team can build from directly.",
-    list:["User research and competitor analysis","User Stories Map + functional requirements","Information architecture and user flows","Wireframes — all screens","Interactive Axure prototype","UX audit of existing product (if needed)"],
-    price:"From $1,500 · Scope-based"
-  },
-  {
-    num:"04", icon:"▣", title:"Pitch Decks",
-    desc:"Investor decks that tell a clear story and look sharp. We structure the narrative first, then design. The result communicates value in the first 30 seconds — not the last slide.",
-    list:["Narrative structure and slide flow","Copywriting and messaging refinement","Full visual design in Figma","Editable master file (Figma or PowerPoint)","Cover, problem, solution, market, traction, team, ask","Up to 2 revision rounds"],
-    price:"From $250 · 1 week"
-  },
-  {
-    num:"05", icon:"◆", title:"Targeting & Creatives",
-    desc:"Ad creatives built for performance, not awards. Each pack is designed for A/B testing — different hooks, formats, and CTAs so you can find what converts, not just what looks good.",
-    list:["3–5 creative assets per pack","Static + motion variants","Optimised for Meta, LinkedIn, Google","Multiple formats (feed, story, banner)","Copy variants for each creative","Creative audit of existing ads (optional)"],
-    price:"$350–$500 per pack · 1 week"
-  },
-  {
-    num:"06", icon:"◇", title:"Strategy Audit",
-    desc:"A free 30-minute session where we look at your current website or product and tell you exactly what's leaking conversions and why. No pitch — just an honest read.",
-    list:["Review of your current site or product","Conversion flow analysis","Messaging and positioning review","Top 3 priority fixes identified","Written summary sent after the call","100% free — no strings attached"],
-    price:"Free · 30 minutes"
-  }
-];
-
-const overlay = document.getElementById('mgOverlay');
-
-function mgOpen(i) {
-  const d = MG_DATA[i];
-  document.getElementById('mgNum').textContent   = d.num;
-  document.getElementById('mgIcon').textContent  = d.icon;
-  document.getElementById('mgTitle').textContent = d.title;
-  document.getElementById('mgDesc').textContent  = d.desc;
-  document.getElementById('mgPrice').textContent = d.price;
-  document.getElementById('mgList').innerHTML    = d.list.map(x=>`<li>${x}</li>`).join('');
-  overlay.classList.add('open');
-  document.body.style.overflow='hidden';
-}
-function mgClose() {
-  overlay.classList.remove('open');
-  document.body.style.overflow='';
-}
-
-document.getElementById('services-grid').addEventListener('click', e=>{
-  const card = e.target.closest('.service-card');
-  if(card){
-    const idx = Array.from(card.parentNode.children).indexOf(card);
-    mgOpen(idx);
-  }
-});
-document.getElementById('mgClose').addEventListener('click', mgClose);
-overlay.addEventListener('click', e=>{ if(e.target===overlay) mgClose(); });
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') mgClose(); });
-document.getElementById('mgBtn').addEventListener('click', mgClose);
-</script>
-
 </body>
 </html>
