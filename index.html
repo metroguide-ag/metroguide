@@ -695,14 +695,17 @@ if(form) {
 function initLife() {
   const canvas = document.getElementById('life-canvas');
   if(!canvas) return;
+  // Guard: if box has no size yet, retry shortly
+  const box0 = canvas.parentElement;
+  if(!box0 || box0.offsetWidth === 0){ setTimeout(initLife, 150); return; }
   const ctx = canvas.getContext('2d');
   const CELL = 7;
   let cols, rows, grid, next, age;
 
   function resize() {
     const box = canvas.parentElement;
-    canvas.width = box.offsetWidth;
-    canvas.height = box.offsetHeight;
+    canvas.width  = box.offsetWidth  || 500;
+    canvas.height = box.offsetHeight || 500;
     cols = Math.floor(canvas.width / CELL);
     rows = Math.floor(canvas.height / CELL);
     grid = Array.from({length:rows}, () => Array.from({length:cols}, () => Math.random() < 0.28 ? 1 : 0));
@@ -761,7 +764,21 @@ function initLife() {
   setInterval(step,120);
   (function loop(){draw();requestAnimationFrame(loop)})();
 }
-setTimeout(initLife,100);
+// Init Game of Life when about section scrolls into view
+(function(){
+  let started = false;
+  const target = document.getElementById('about-section') || document.querySelector('.about-box');
+  if(!target){ setTimeout(initLife, 300); return; }
+  const io = new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting && !started){
+      started = true;
+      // Small delay so layout is settled and offsetWidth is correct
+      setTimeout(initLife, 80);
+      io.disconnect();
+    }
+  }, {threshold: 0.1});
+  io.observe(target);
+})();
 </script>
 
 <!-- ── MODAL ── -->
