@@ -692,59 +692,63 @@ if(form) {
   });
 }
 // -- GAME OF LIFE
+<script>
+// -- GAME OF LIFE
 function initLife() {
   const canvas = document.getElementById('life-canvas');
   if(!canvas) return;
-  // Guard: if box has no size yet, retry shortly
-  const box0 = canvas.parentElement;
-  if(!box0 || box0.offsetWidth === 0){ setTimeout(initLife, 150); return; }
   const ctx = canvas.getContext('2d');
   const CELL = 7;
   let cols, rows, grid, next, age;
 
   function resize() {
     const box = canvas.parentElement;
-    canvas.width  = box.offsetWidth  || 500;
-    canvas.height = box.offsetHeight || 500;
+    canvas.width = box.offsetWidth;
+    canvas.height = box.offsetHeight;
     cols = Math.floor(canvas.width / CELL);
     rows = Math.floor(canvas.height / CELL);
     grid = Array.from({length:rows}, () => Array.from({length:cols}, () => Math.random() < 0.28 ? 1 : 0));
     next = grid.map(r => [...r]);
     age  = Array.from({length:rows}, () => new Array(cols).fill(0));
-    // seed glider in center
+
     const cr = Math.floor(rows/2), cc = Math.floor(cols/2);
-    [[0,1],[1,2],[2,0],[2,1],[2,2]].forEach(([dr,dc]) => { grid[cr+dr][cc+dc] = 1; });
+    [[0,1],[1,2],[2,0],[2,1],[2,2]].forEach(([dr,dc]) => {
+      if (grid[cr + dr] && typeof grid[cr + dr][cc + dc] !== 'undefined') {
+        grid[cr + dr][cc + dc] = 1;
+      }
+    });
   }
 
   function neighbors(r,c) {
-    let n=0;
-    for(let dr=-1;dr<=1;dr++) for(let dc=-1;dc<=1;dc++) {
-      if(dr===0&&dc===0) continue;
+    let n = 0;
+    for(let dr=-1; dr<=1; dr++) for(let dc=-1; dc<=1; dc++) {
+      if(dr===0 && dc===0) continue;
       n += grid[(r+dr+rows)%rows][(c+dc+cols)%cols];
     }
     return n;
   }
 
   function step() {
-    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) {
-      const n=neighbors(r,c), alive=grid[r][c];
-      next[r][c] = alive ? (n===2||n===3?1:0) : (n===3?1:0);
+    for(let r=0; r<rows; r++) for(let c=0; c<cols; c++) {
+      const n = neighbors(r,c), alive = grid[r][c];
+      next[r][c] = alive ? (n===2 || n===3 ? 1 : 0) : (n===3 ? 1 : 0);
     }
-    [grid,next]=[next,grid];
+    [grid, next] = [next, grid];
   }
 
   function draw() {
     const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
     ctx.fillStyle = isDark ? '#080c10' : '#0d1219';
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) {
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    for(let r=0; r<rows; r++) for(let c=0; c<cols; c++) {
       if(grid[r][c]) {
-        age[r][c] = Math.min(age[r][c]+1, 20);
+        age[r][c] = Math.min(age[r][c] + 1, 20);
         const a = age[r][c];
         if(a < 4)       ctx.fillStyle = 'rgba(0,255,180,0.95)';
         else if(a < 10) ctx.fillStyle = 'rgba(0,170,255,0.55)';
         else            ctx.fillStyle = 'rgba(0,255,180,0.2)';
-        ctx.fillRect(c*CELL+1, r*CELL+1, CELL-1, CELL-1);
+        ctx.fillRect(c * CELL + 1, r * CELL + 1, CELL - 1, CELL - 1);
       } else {
         age[r][c] = 0;
       }
@@ -753,32 +757,32 @@ function initLife() {
 
   canvas.addEventListener('mousemove', e => {
     const rect = canvas.getBoundingClientRect();
-    const cc = Math.floor((e.clientX-rect.left)/CELL);
-    const cr = Math.floor((e.clientY-rect.top)/CELL);
-    for(let dr=-2;dr<=2;dr++) for(let dc=-2;dc<=2;dc++) {
-      const nr=(cr+dr+rows)%rows, nc=(cc+dc+cols)%cols;
-      if(Math.random()<0.35) grid[nr][nc]=1;
+    const cc = Math.floor((e.clientX - rect.left) / CELL);
+    const cr = Math.floor((e.clientY - rect.top) / CELL);
+
+    for(let dr=-2; dr<=2; dr++) for(let dc=-2; dc<=2; dc++) {
+      const nr = (cr + dr + rows) % rows;
+      const nc = (cc + dc + cols) % cols;
+      if(Math.random() < 0.45) grid[nr][nc] = 1;
     }
   });
 
-  setInterval(step,120);
-  (function loop(){draw();requestAnimationFrame(loop)})();
+  resize();
+  window.addEventListener('resize', resize);
+
+  let frame = 0;
+  function loop() {
+    if(frame % 2 === 0) step();
+    draw();
+    frame++;
+    requestAnimationFrame(loop);
+  }
+  loop();
 }
-// Init Game of Life when about section scrolls into view
-(function(){
-  let started = false;
-  const target = document.getElementById('about-section') || document.querySelector('.about-box');
-  if(!target){ setTimeout(initLife, 300); return; }
-  const io = new IntersectionObserver(function(entries){
-    if(entries[0].isIntersecting && !started){
-      started = true;
-      // Small delay so layout is settled and offsetWidth is correct
-      setTimeout(initLife, 80);
-      io.disconnect();
-    }
-  }, {threshold: 0.1});
-  io.observe(target);
-})();
+
+// Init after render
+setTimeout(initLife, 100);
+</script>
 </script>
 
 <!-- ── MODAL ── -->
